@@ -3,19 +3,83 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 255, 245, 247;
+  --background-end-rgb: 255, 255, 255;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+  min-height: 100vh;
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-2 bg-pink-600 text-white rounded-full hover:bg-pink-700 transition-colors;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-lg p-6;
+  }
+
+  .savings-header h2 {
+    @apply relative inline-block;
+  }
+
+  .savings-header h2::after {
+    content: "";
+    @apply absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/5 h-0.5 bg-gradient-to-r from-pink-200 via-pink-600 to-pink-200 rounded;
+  }
+
+  .grid-cell {
+    @apply bg-white border-2 border-pink-200 rounded-lg p-4 cursor-pointer text-center transition-all duration-200 min-h-[40px] flex items-center justify-center font-medium hover:border-pink-400 hover:-translate-y-0.5 hover:shadow-md;
+  }
+
+  .grid-cell.saved {
+    @apply bg-pink-600 text-white border-pink-600;
+  }
+
+  @media print {
+    body {
+      @apply bg-white;
+    }
+    .container {
+      @apply shadow-none;
+    }
+    button {
+      @apply hidden;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .grid {
+      @apply grid-cols-4 gap-1.5;
+    }
+    .grid-cell {
+      @apply p-2 min-h-[35px] text-sm;
+    }
+  }
+
+  @media (min-width: 481px) and (max-width: 768px) {
+    .grid {
+      @apply grid-cols-5 gap-2;
+    }
+    .grid-cell {
+      @apply min-h-[38px] text-sm p-1.5;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .grid {
+      @apply grid-cols-6 gap-2.5;
+    }
+    .grid-cell {
+      @apply min-h-[42px] text-base p-2;
+    }
+  }
 }
